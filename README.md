@@ -1,4 +1,4 @@
-# QMK Firmware for corne keyboard
+# QMK Firmware for corne Split keyboard
 
 
 ### Dependencies 
