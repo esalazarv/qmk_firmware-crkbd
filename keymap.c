@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 #include <custom_keys.h>
+#include <rgb_timer.h>
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_split_3x6_3(
@@ -190,3 +191,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 #endif // OLED_DRIVER_ENABLE
+
+
+/* Runs at the end of each scan loop, check if RGB timeout has happened */
+void housekeeping_task_user(void) {
+  #ifdef RGBLIGHT_TIMEOUT
+  check_rgb_timeout();
+  #endif
+  
+  /* rest of the function code here */
+}
+
+/* Runs after each key press, check if activity occurred */
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+  #ifdef RGBLIGHT_TIMEOUT
+  if (record->event.pressed) refresh_rgb();
+  #endif
+
+  /* rest of the function code here */
+}
